@@ -5,10 +5,9 @@ print(path)
 sys.path.insert(0, path)
 
 
-from scripts import network_T1
-from scripts import network_T2
-from scripts import network_T3
-
+from src import network_T1
+from src import network_T2
+from src import network_T3
 
 
 
@@ -21,3 +20,5 @@ if __name__ == '__main__':
         network_T2.networkT2_main()
     elif network == "T3":
         network_T3.networkT3_main()
+
+
