@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.create" id="C6e6e1fb6-cc42-4ae2-8d41-e597d30a062e" priority="normal">
+        <target>
+            <class>
+                <type name="CodelistProperties" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def sewerCodelistProperties = [&#xD;
+  ["Tracing_Appurtenance", "currentStatus", "https://inspire.ec.europa.eu/codelist/ConditionOfFacilityValue"],&#xD;
+  ["Tracing_Appurtenance", "specificAppurtenanceType", "https://inspire.ec.europa.eu/codelist/SewerAppurtenanceTypeValue"],&#xD;
+  ["Tracing_UtilityLink", "currentStatus", "https://inspire.ec.europa.eu/codelist/ConditionOfFacilityValue"],&#xD;
+  ["Tracing_UtilityLink", "sewerWaterType", "https://inspire.ec.europa.eu/codelist/SewerWaterTypeValue"],&#xD;
+  ["Tracing_UtilityLink", "utilityDeliveryType", "https://inspire.ec.europa.eu/codelist/UtilityDeliveryTypeValue"]&#xD;
+  &#xD;
+]&#xD;
+sewerCodelistProperties.each {&#xD;
+  value -&gt;&#xD;
+	_target {&#xD;
+	    tableName( value[0] )&#xD;
+		propertyName ( value[1] )&#xD;
+		codelist ( value[2] )&#xD;
+	}&#xD;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="Cb8703314-fe25-4cad-927d-ba9b40bf6a29" priority="normal">
+        <target>
+            <property>
+                <type name="CodelistProperties" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.groovy.create" id="C54e7bf8c-3bae-4c22-b728-48117927e19b" priority="normal">
+        <target>
+            <class>
+                <type name="DatasetDefaultProperties" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <complexParameter name="script">
+            <core:text xmlns:core="http://www.esdi-humboldt.eu/hale/core" xml:space="preserve">
+def defaultProperties = [&#xD;
+  ["Tracing_Appurtenance", "inspireId_versionId", null, "v0.1"],&#xD;
+  ["Tracing_UtilityLink", "inspireId_versionId", null, "v0.1"],&#xD;
+  ["Tracing_UtilityLink", "fictitious", null, "false"],&#xD;
+  ["Tracing_Appurtenance", "appurtenanceType", "sewerAppurtenanceType", "https://inspire.ec.europa.eu/codelist/SpecificAppurtenanceTypeValue"]&#xD;
+]&#xD;
+&#xD;
+defaultProperties.each {&#xD;
+  value -&gt;&#xD;
+    _target {&#xD;
+        tableName( value[0] )&#xD;
+        propertyName ( value[1] )&#xD;
+        attribute ( value[2] )&#xD;
+        defaultValue ( value[3] )&#xD;
+	}&#xD;
+}
+</core:text>
+        </complexParameter>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C4b4cf6dc-f3a3-496f-850b-84af2586d06d" priority="normal">
+        <target>
+            <property>
+                <type name="DatasetDefaultProperties" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cc6ef8695-275d-4c7a-b382-8d0338521456" priority="normal">
+        <source>
+            <class>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C3b0f48f2-ace3-4b8e-95f2-61780fc48171" priority="normal">
+        <source>
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpState"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="currentStatus"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="1.0"/>
+                    <value value="functional"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C9d3e07a9-4ee6-4944-8ecf-081f7341f1f3" priority="normal">
+        <source>
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="the_geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geometry"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C37f9626e-0279-45d6-b0bf-9e8ca2f861ac" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cc1fc911b-1c52-4d0a-81a4-57ba8fe37878" priority="normal">
+        <source>
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpCode"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="identifier"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Cd692acef-95f2-4f09-b18a-f23a1d8f3821" priority="normal">
+        <source name="var">
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpCode"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_localId"/>
+            </property>
+        </target>
+        <parameter value="SewerNode_{dcpCode}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C4551a1ac-88d8-4515-bcfd-be431bffd05a" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_namespace"/>
+            </property>
+        </target>
+        <parameter value="BE.Tracing.SewerNetwork" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C309ebd8e-7b05-4d23-b3bc-3b6cf5866769" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="specificAppurtenanceType"/>
+            </property>
+        </target>
+        <parameter value="dischargeStructure" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ca3ad3bd7-9ee2-453c-9f1e-5935126365bb" priority="normal">
+        <source>
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpReceivi"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_Appurtenance" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="watercourseLinkId"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C7798345e-864b-4da3-a6bc-964172c3ed81" priority="normal">
+        <source>
+            <class>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_AppurtenanceVoidables" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cafa8dd6e-58d6-4c75-8490-f2e202e19996" priority="normal">
+        <source>
+            <property>
+                <type name="disharge_points" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpCode"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_AppurtenanceVoidables" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="appurtenanceId"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C5138b11d-e5f9-4166-a626-2e3285ec8088" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_AppurtenanceVoidables" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="beginLifespanVersion"/>
+            </property>
+        </target>
+        <parameter value="2022-12-12 00:00:00.0" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C505cc1bb-62a4-4fca-b393-f9337e256ff8" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_AppurtenanceVoidables" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+</alignment>

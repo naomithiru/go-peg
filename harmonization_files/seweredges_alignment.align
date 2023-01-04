@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C26907742-9982-4d93-a4ee-1037f25a06e6" priority="normal">
+        <source>
+            <class>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ca5a7a83d-33d6-400a-bf98-f9b2cdf17c6e" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="the_geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="centrelineGeometry"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C37543cde-26d7-40be-9068-7f9015da67b5" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="STATUS"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="currentStatus"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Actief"/>
+                    <value value="functional"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C00eecbe1-8ae6-4737-a09c-c78d47a728fd" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="EINDKPNT"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="endNode"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C61812c2d-3a35-4d5e-b18a-3f4ee3835ea6" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="fictitious"/>
+            </property>
+        </target>
+        <parameter value="false" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C00b91e8e-a60c-4977-b65c-ec1d92d39136" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Ce2d1e092-cea0-4b72-8c57-4e23cb656ab0" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="NRSTRENG"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="identifier"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Cded0331d-ad5d-41de-a2be-7a39f1180758" priority="normal">
+        <source name="var">
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="NRSTRENG"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_localId"/>
+            </property>
+        </target>
+        <parameter value="SN_UtilityLink_{NRSTRENG}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C29f9df4d-adb1-4b1b-ad6a-9805c3f68597" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_namespace"/>
+            </property>
+        </target>
+        <parameter value="BE.Tracing.SewerNetwork" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.dateextraction" id="Cf119df40-dbc5-40f4-bdab-483d65349c19" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="RENDATUM"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="renovationDate"/>
+            </property>
+        </target>
+        <parameter value="yyyy-MM-dd" name="dateFormat"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C71d16652-37c5-4889-b67f-92c18d9fe1ee" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="BEGINKPNT"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="startNode"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C1864117a-6752-4a68-bd0b-147c6e7f96f8" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="LBLFUNCTIE"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="utilityDeliveryType"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="Inzameling"/>
+                    <value value="collection"/>
+                </entry>
+                <entry>
+                    <key value="Transport"/>
+                    <value value="private"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.dateextraction" id="C3bae89e3-54b0-4bda-ad33-8e0b4eb95db8" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="STARTDATUM"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="validFrom"/>
+            </property>
+        </target>
+        <parameter value="yyyy-MM-dd" name="dateFormat"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.string.dateextraction" id="Ca135f99d-8d2a-4331-916d-ea0c8bdd3770" priority="normal">
+        <source>
+            <property>
+                <type name="VL_sewer_edges" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="STOPDATUM"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_UtilityLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="validTo"/>
+            </property>
+        </target>
+        <parameter value="yyyy-MM-dd" name="dateFormat"/>
+    </cell>
+</alignment>
