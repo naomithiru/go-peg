@@ -1,0 +1,116 @@
+def ncTables  = [
+  "Tracing_Hydronode",
+  "Tracing_WatercourseLink"
+]
+
+def ncTablesdefaultProperties = [
+  ["inspireId_versionId", null, "v0.1"],
+  ["beginLifespanVersion", "nilReason", "http://inspire.ec.europa.eu/codelist/VoidReasonValue/Unpopulated"]
+]
+
+ncTables.each {
+  valueTable ->
+  	ncTablesdefaultProperties.each {
+  	  value ->
+		_target {
+		    tableName( valueTable )
+			propertyName ( value[0] )
+			attribute ( value[1] )
+			defaultValue ( value[2] )
+		}
+	}
+}
+
+
+def otherDefaultProperties = [
+  ["Tracing_WatercourseLink", "length_uom", null,  "metres"],
+  ["Tracing_WatercourseLink", "fictitious", null, "false"],
+  ["Tracing_WatercourseLink", "flowDirection", "inDirection", "https://inspire.ec.europa.eu/codelist/LinkDirectionValue/inDirection"],
+]
+
+otherDefaultProperties.each {
+  value ->
+    _target {
+        tableName( value[0] )
+        propertyName ( value[1] )
+        attribute ( value[2] )
+        defaultValue ( value[3] )
+	}
+}
+
+***************************************************************************************************************************************************************************
+
+
+
+def hydroCodelistProperties = [
+  ["Tracing_Hydronode", "appurtenance_type", "https://inspire.ec.europa.eu/codelist/SewerAppurtenanceTypeValue"],
+  ["Tracing_Hydronode", "appurtenance_status", "https://inspire.ec.europa.eu/codelist/ConditionOfFacilityValue"],
+  ["Tracing_Hydronode", "category", "https://inspire.ec.europa.eu/codelist/HydroNodeCategoryValue"],
+  ["Tracing_WatercourseLink", "flowDirection", "https://inspire.ec.europa.eu/codelist/LinkDirectionValue"], 
+  ["NetworkConnection", "connectionType", "https://inspire.ec.europa.eu/codelist/ConnectionTypeValue"]
+]
+hydroCodelistProperties.each {
+  value ->
+	_target {
+	    tableName( value[0] )
+		propertyName ( value[1] )
+		codelist ( value[2] )
+	}
+}
+*********************************************************************************************************************
+
+def defaultProperties = [
+  ["Tracing_Hydronode", "inspireId_versionId", null, "v0.1"],
+  ["Tracing_WatercourseLink", "inspireId_versionId", null, "v0.1"],
+  ["Tracing_WatercourseLink", "length_uom", null,  "metres"],
+  ["Tracing_WatercourseLink", "fictitious", null, "false"],
+]
+
+defaultProperties.each {
+  value ->
+    _target {
+        tableName( value[0] )
+        propertyName ( value[1] )
+        attribute ( value[2] )
+        defaultValue ( value[3] )
+	}
+}
+
+
+*********************************************************************************************************************************
+
+def sewerCodelistProperties = [
+  ["Tracing_Appurtenance", "currentStatus", "https://inspire.ec.europa.eu/codelist/ConditionOfFacilityValue"],
+  ["Tracing_Appurtenance", "specificAppurtenanceType", "https://inspire.ec.europa.eu/codelist/SewerAppurtenanceTypeValue"],
+  ["Tracing_UtilityLink", "currentStatus", "https://inspire.ec.europa.eu/codelist/ConditionOfFacilityValue"],
+  ["Tracing_UtilityLink", "sewerWaterType", "https://inspire.ec.europa.eu/codelist/SewerWaterTypeValue"],
+  ["Tracing_UtilityLink", "utilityDeliveryType", "https://inspire.ec.europa.eu/codelist/UtilityDeliveryTypeValue"]
+  
+]
+sewerCodelistProperties.each {
+  value ->
+	_target {
+	    tableName( value[0] )
+		propertyName ( value[1] )
+		codelist ( value[2] )
+	}
+}
+
+
+def defaultProperties = [
+  ["Tracing_Appurtenance", "inspireId_versionId", null, "v0.1"],
+  ["Tracing_UtilityLink", "inspireId_versionId", null, "v0.1"],
+  ["Tracing_UtilityLink", "fictitious", null, "false"],
+  ["Tracing_Appurtenance", "appurtenanceType", href, "https://inspire.ec.europa.eu/codelist/SpecificAppurtenanceTypeValue"]
+]
+
+defaultProperties.each {
+  value ->
+    _target {
+        tableName( value[0] )
+        propertyName ( value[1] )
+        attribute ( value[2] )
+        defaultValue ( value[3] )
+	}
+}
+
