@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignment xmlns="http://www.esdi-humboldt.eu/hale/alignment">
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C4b9eeb95-551c-41a4-baee-21f142d01193" priority="normal">
+        <source>
+            <class>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cb7ac646e-604b-4552-b21b-4d0c484d2ded" priority="normal">
+        <source>
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="sewernode_"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="appurtenance_id"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C4c87296b-f293-4348-a8e9-0d4e87063ed3" priority="normal">
+        <source>
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpState"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="appurtenance_status"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="1.0"/>
+                    <value value="active"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.classification" id="C7210f18c-c3ad-4531-a66b-3903ed60f22c" priority="normal">
+        <source>
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="dcpWaterBo"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="appurtenance_type"/>
+            </property>
+        </target>
+        <complexParameter name="lookupTable">
+            <lookup-table xmlns:ns2="http://www.esdi-humboldt.eu/hale/alignment" xmlns="">
+                <entry>
+                    <key value="FW"/>
+                    <value value="dischargeStructure"/>
+                </entry>
+            </lookup-table>
+        </complexParameter>
+        <parameter value="null" name="notClassifiedAction"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C1952717b-dde4-49f2-90ad-dac0ff49ebd1" priority="normal">
+        <source>
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="the_geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="geometry"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C5d7ff30f-f4bd-4216-ae11-7a12ee7786e4" priority="normal">
+        <source>
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="node_id"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="hydroId"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C44555933-ec7d-4660-ac1f-ee511f6aa857" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="C57e7b826-a8d7-4fee-945e-4f786dd98f10" priority="normal">
+        <source name="var">
+            <property>
+                <type name="final_wal_nodes_combined" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="node_id"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_localId"/>
+            </property>
+        </target>
+        <parameter value="#HN_HydroNode_{node_id}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cf5c5c35e-e126-46d1-87d2-69b88edeefb0" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_HydroNode" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_namespace"/>
+            </property>
+        </target>
+        <parameter value="BE.Tracing.HydroNetwork" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="Cb0465ce2-d70f-4dfb-8c4f-c7bd69ff4555" priority="normal">
+        <source>
+            <class>
+                <type name="wal_vl_network_connection"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_NetworkConnection" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C06b9882e-97ad-480e-9c21-ecbc8c499d36" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_NetworkConnection" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="connectionType"/>
+            </property>
+        </target>
+        <parameter value="cross-border connected" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="Ce5ad53cb-f0b6-47a8-8341-796a88a918bb" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_NetworkConnection" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C3166ddfd-3dca-40db-a657-16c8b8b452b2" priority="normal">
+        <source>
+            <property>
+                <type name="wal_vl_network_connection"/>
+                <child name="id_element1"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_NetworkConnection" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="idElement1"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C14ce9a3f-9663-444f-9572-57dc5445a243" priority="normal">
+        <source>
+            <property>
+                <type name="wal_vl_network_connection"/>
+                <child name="id_element2"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_NetworkConnection" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="idElement2"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.retype" id="C15a91011-a227-4252-9fef-c5e39192f566" priority="normal">
+        <source>
+            <class>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+            </class>
+        </source>
+        <target>
+            <class>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+            </class>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C1c2f6051-6c1c-4b2c-9e15-fd7e2aff749e" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="CONTINUA"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="category"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cad432711-f95a-40e6-85ee-9c716e315f9f" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="the_geom"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="centrelineGeometry"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C47bc6a12-ceaa-4d4e-a30a-fecf0538cd45" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="end_ID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="endNode"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Ca3a97b4e-5242-47b3-9853-f0812f61268d" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="fictitious"/>
+            </property>
+        </target>
+        <parameter value="false" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Cf8183d95-1d52-4ca2-aa1e-1f4803456379" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="flowDirection"/>
+            </property>
+        </target>
+        <parameter value="in direction" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C5c2cd5a7-a6bd-465c-a958-7d45fe1a7274" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="CENTRELINE"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="hydroId"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.cst.functions.numeric.sequentialid" id="C852caad0-6cbf-48a6-8ce6-de926e649502" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="id"/>
+            </property>
+        </target>
+        <parameter value="" name="prefix"/>
+        <parameter value="type" name="sequence"/>
+        <parameter value="" name="suffix"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.formattedstring" id="Ca6905966-9abd-4ff0-915f-6a173b9c8dcb" priority="normal">
+        <source name="var">
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="CENTRELINE"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_localId"/>
+            </property>
+        </target>
+        <parameter value="WatercourseLink_{CENTRELINE}" name="pattern"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="Caa0a5204-e69d-453c-80a5-041a6fe921f9" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="inspireId_namespace"/>
+            </property>
+        </target>
+        <parameter value="BE.Tracing.HydroNetwork" name="value"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C7f04ab1b-a059-4ecc-814e-507644dca44b" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="LENGTH_M"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="length"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C6d8974bc-a4af-48b0-89d6-2fbfcb2ff882" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="start_ID"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="startNode"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="C5b0c91d9-922a-4e8e-8c6a-16b05fe2eb5d" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="NOM_BASSIN"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="watercourseBasin"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.rename" id="Cd31f3721-62e3-4053-b29e-6e4121dd8bf6" priority="normal">
+        <source>
+            <property>
+                <type name="wal_water_PROCESSED" ns="http://www.esdi-humboldt.eu/hale/shp"/>
+                <child name="SWB_NAME"/>
+            </property>
+        </source>
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="watercourse_localName"/>
+            </property>
+        </target>
+        <parameter value="false" name="ignoreNamespaces"/>
+        <parameter value="false" name="structuralRename"/>
+    </cell>
+    <cell relation="eu.esdihumboldt.hale.align.assign" id="C57335201-830e-40a5-8bf4-d55db7e2489a" priority="normal">
+        <target>
+            <property>
+                <type name="Tracing_WatercourseLink" ns="http://www.esdi-humboldt.eu/hale/gpkg"/>
+                <child name="watercourse_localNameLanguage"/>
+            </property>
+        </target>
+        <parameter value="fr" name="value"/>
+    </cell>
+</alignment>
