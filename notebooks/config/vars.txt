@@ -1,0 +1,10 @@
+category: CONTINUA
+end_ID: end_ID
+line_id: CENTRELINE
+length: LENGTH_M
+start_ID: start_ID
+basin: NOM_BASSIN
+name: SWB_NAM
+sewer_node_id: dcpCode
+water_node_id: node_id
+region: WAL
