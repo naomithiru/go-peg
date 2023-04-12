@@ -17,11 +17,12 @@ def load_data(path):
     Loads the data from the given path,
     and prints the shape and crs of the data.
     """
-
     data = gpd.read_file(path)
     data = data.drop_duplicates(subset=["geometry"]).reset_index(drop=True)
-    print("Data successfully loaded")
-    return data
+    print(data.shape)
+    data_crs = data.crs
+    print("Project crs:", data.crs)
+    return data, data_crs
 
 
 def set_project_crs(df):
@@ -274,79 +275,117 @@ def get_line_coords(line):
 
 # Split function
 def get_line_segments(l, points_list):
+
     """l = linestring, a data structure of a list made up of tuples of coordinates
        points_list = list of points to split the linestring at"""
 
-    # compares the two lists and returns the indexes of occurence of a point in a linestring
     idx_list = [
         i for i, item in enumerate(l) if item in points_list
-    ] 
-    # get correct order of points list on the line
-    p = [l[i] for i in idx_list]
+    ]  # compares the two lists and returns the indexes of occurence
+
+    p = [l[i] for i in idx_list]  # get correct order of points list on the line
 
     super_list = []
+
     start_idx = 0
 
+    # print("Index list: ", idx_list)
     if len(idx_list) == 1 and (
         p[0] == l[0] or p[0] == l[-1]
-    ):  # (i == 0 or i == len(l)-1) and len(idx_list) == 1:
-        # print("One split point, at first or last index")
+    ):  #      (i == 0 or i == len(l)-1) and len(idx_list) == 1:
+        print("One split point, at first or last index")
         line_segment = LineString(l)
         super_list.append(line_segment)
 
     elif len(idx_list) == 2 and (p[0] == l[0] or p[1] == l[-1]):
-        # print("Two split points, at first and last index")
+        print("Two split points, at first and last index")
         line_segment = LineString(l)
         super_list.append(line_segment)
 
     else:
-
+        # import pdb; pdb.set_trace()
         for i in idx_list:
-            # In the case of the first coordinates of a line being a split
-            # point but there are other split points
+            # In the case of the first coordinates of a line being a split point but there are other split points
             if i == 0 and len(idx_list) > 1:
                 index_list = len(idx_list)
-                # print(f"First index is a split point, with {index_list} split points")
+                print(f"First index is a split point, with {index_list} split points")
                 continue
+            elif i != 0 and len(idx_list) == 1:
+                stop_idx = i + 1
+                print(f"One split point at index {i}")
+                # print('stop_idx:', stop_idx)
+                # print('length of list:', len(l))
+                if len(l) - stop_idx == 1:
+                    last_segment = l #[stop_idx-1: len(l)+1]
+                    last_segment_geom = LineString(last_segment)
+                    super_list.append(last_segment_geom)
+                else:
+                    print(f"One split point at index {i}")
+                    # # stop_idx = i + 1  # grab list elements until index i
+                    # print(f"stop index is {stop_idx}")
+                    line_list = l[start_idx:stop_idx]
+                    line_segment = LineString(line_list)
+                    super_list.append(line_segment)
+                    # print('index_list:' ,len(idx_list))
+                    # print('stop_idx:', stop_idx)
+                    # print('length of list:', len(l))
+                    if len(l) > stop_idx:
+                        last_segment = l[i: len(l)+1]
+                        last_segment_geom = LineString(last_segment)
+                        super_list.append(last_segment_geom)
 
             else:
-                # print("Many split points")
+                print("Many split points")
                 stop_idx = i + 1  # grab list elements until index i
+                # print(f"stop index is {stop_idx}")
+
                 line_list = l[start_idx:stop_idx]
                 line_segment = LineString(line_list)
                 super_list.append(line_segment)
                 start_idx = (
                     i  # reset the start index to the number of the prevous stop index
                 )
-                # Catch if a split point is at the end of the line list, super
-                # list still has one more segment to add
-                if len(super_list) == len(idx_list):
-                    last_segment = l[stop_idx - 1: len(l)]
+
+                # super list still has one more segment to add
+                # print('Super_list:', len(super_list))
+                # print('index_list:' ,len(idx_list))
+                # print('stop_idx:', stop_idx)
+                # print('length of list:', len(l))
+                if len(idx_list) - len(super_list)  == 1:
+                    print('super list still has one more segment to add')
+                    # last_segment = l[stop_idx - 1 : len(l)]
+                    last_segment = l[i: len(l)+1]
+                    # print('stop_idx:', stop_idx)
+                    # print('length of list:', len(l))
                     if stop_idx == len(l):
-                        # print("Split point at end of list") # stop index goes
-                        # beyond the line list
+                        # print("Split point at end of list") # stop index goes beyond the line list
                         break
-                    else:
-                        # print("Split point at end of list")
+                    # n = len(l) - len(super_list)
+                    # last_segment = l[stop_idx-1:len(l)] # Grab the last segments of the list from the prevous stop_idx-1, to the end of the lin len(l)
+                    elif len(l) - stop_idx == 1:
+                        del super_list[-1]
+                        last_segment = l[i: len(l)+1]
                         last_segment_geom = LineString(last_segment)
                         super_list.append(last_segment_geom)
 
-        # if points_list[0] == line_list[0] and points_list[-1] == line_list[-1]:
-        #    assert len(super_list) == len(idx_list) - 1
-        # elif points_list[0] == line_list[0] or points_list[-1] == line_list[-1]:
-        #    assert len(super_list) == len(idx_list)
-        # else:
-        #    assert len(super_list) == len(idx_list) + 1
+                    else:
+                        last_segment_geom = LineString(last_segment)
+                        super_list.append(last_segment_geom)
+                        print("Last segment added")
+                # elif len(super_list) < len(idx_list):
+                #     last_segment = l[stop_idx - 1 : len(l)]
+
     return super_list
 
 
 # pass a dataframe to the function
-def split_lines(water_gdf, nodes_gdf, unique_id, PROJ_CRS):
+def split_lines(water_gdf, nodes_gdf, water_line_id, PROJ_CRS):
 
-    water_no_duplicates = water_gdf.drop_duplicates(subset=unique_id)
-    groups = nodes_gdf.groupby(unique_id)
+    water_no_duplicates = water_gdf.drop_duplicates(subset=water_line_id)
 
-    codes_list = nodes_gdf[unique_id].to_list()
+    groups = nodes_gdf.groupby(water_line_id)
+
+    codes_list = nodes_gdf[water_line_id].to_list()
     unique_code_list = list(set(codes_list))
 
     all_segments = []
@@ -354,9 +393,10 @@ def split_lines(water_gdf, nodes_gdf, unique_id, PROJ_CRS):
 
     for num, i in enumerate(unique_code_list):
         points_list = groups.get_group(i).coords.to_list()
+        # print("Points list: ", points_list)
 
-        line = water_no_duplicates[water_no_duplicates[unique_id]
-                                   == i]["coords"][:1]
+        line = water_no_duplicates[water_no_duplicates[water_line_id] == i]["coords"][:1]
+        # indx = water_no_duplicates[water_no_duplicates[water_line_id] == i].index [0]
 
         points_list = groups.get_group(i).coords.to_list()
 
@@ -368,18 +408,26 @@ def split_lines(water_gdf, nodes_gdf, unique_id, PROJ_CRS):
         num_unique_ids = [i] * num_segments
         # get group for each unique code
         # group_ids = groups.get_group(i)[unique_id].to_list()
+
         # assert len(flat_list) == len(water_no_duplicates)
         ids.extend(num_unique_ids)
-    # Create dataframe with all segments
-    print("Number of split segments: ", len(all_segments))
-    print(len(ids))
+
+        print(f"Line: {i}")
+        # print(f'len({line_segments}) line_segments added')
+        # print(line_segments)
+        # all_segments = all_segments.extend(line_segment)
+
+    ## Create dataframe with all segments
+    # print(len(all_segments))
+    # print(len(ids))
     # ids_list = list(range(len(ids)))
     gdf_segments = gpd.GeoDataFrame(
         list(range(len(all_segments))), geometry=all_segments, crs=PROJ_CRS
-    )
+        )
     gdf_segments.columns = ["index", "geometry"]
+    gdf_segments[water_line_id] = ids
     gdf_segments = gdf_segments.set_index("index")
-    gdf_segments[unique_id] = ids
+    gdf_segments = gdf_segments.drop_duplicates(subset="geometry")
     return gdf_segments
 
 
@@ -397,7 +445,6 @@ def combine_nodes(water_nodes_df, connection_nodes_gdf, unique_id):
         .drop_duplicates(subset="geometry", keep="first")
         .reset_index(drop=True)
     )
-
     return final_nodes_combined
 
 
